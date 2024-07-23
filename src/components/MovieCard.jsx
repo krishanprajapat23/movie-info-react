@@ -6,7 +6,7 @@ const Movie = ({ movieData, fetchMovieData }) => {
     };
 
     // Check if adult is true, return null if true (skip rendering)
-    if (movieData.adult) {
+    if (movieData.adult || movieData.name) {
         return null;
     }
 

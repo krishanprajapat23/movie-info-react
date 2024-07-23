@@ -1,7 +1,8 @@
 import Movie from './MovieCard';
 
 const Movies = ({ movies, fetchMovieData }) => {
-  const movieCategories = ['now_playing', 'top_rated'];
+  const movieCategories = ['now_playing', 'top_rated', 'search_results'];
+  console.log(movies);
   return (
     <>
       {movieCategories.map((key) => (

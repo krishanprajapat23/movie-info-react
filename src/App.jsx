@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from "react";
-import { fetchMoviesType, fetchMovieDetails, fetchMovieVideo } from "./api";
+import { fetchMoviesType, fetchMovieDetails, fetchMovieVideo, fetchSeachedMovie } from "./api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "./components/Loader";
@@ -9,6 +9,7 @@ import MovieDetails from './components/MovieDetails';
 
 const App = () => {
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [movies, setMovies] = useState({});
   const [movieDetails, setMovieDetails] = useState(null);
   const [movieVDO, setMovieVDO] = useState(null);
@@ -55,6 +56,40 @@ const App = () => {
     }
   }
 
+  const fetchSearchedMovie = async (query) =>{
+    setLoading(true);
+    try {
+      const data = await fetchSeachedMovie(query);
+      setMovies({
+        search_results: data.results,
+      });
+      // console.log(data.results);
+      // console.log(response.results);
+    } catch (error) {
+      handleFetchError(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery) {
+      setError('');
+      fetchSearchedMovie(searchQuery);
+    } else {
+      setError('Please enter name ...');
+      return;
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch();
+    }
+  }
+
   const handleCloseMovieDetails = () => {
     setShowMovieDetails(false);
     // Reset movie details when offcanvas is closed
@@ -78,6 +113,13 @@ const App = () => {
   return (
     <>
       <ToastContainer theme="colored" />
+      <Header
+        title='Movie Info'        
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        handleKeyPress={handleKeyPress}
+        handleSearch={handleSearch}
+      />
       {loading && <Loader />}
       <main>
         <section className="movies-wrapper">

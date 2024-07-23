@@ -10,8 +10,6 @@ const searchMovieURL = `${API_URL}/search/multi?api_key=${APIKey}&language=en-US
 // const vidUrl = `${API_URL}/3/movie/${movieId}/videos?api_key=${APIKey}&language=en-US`;
 
 
-
-
 const fetchMoviesType = async (type) => {
   try {
     const fetchMovies = `${API_URL}/movie/${type}?api_key=${APIKey}`;
@@ -48,5 +46,19 @@ const fetchMovieVideo = async (movieId) => {
 };
 
 
+const fetchSeachedMovie = async (query) =>{
+  try {
+    const fetchMovie = `${searchMovieURL}${query}`;
+    const response = await axios.get(fetchMovie);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching chapters:", error);
+    throw error; // Re-throw the error to handle it in the calling code
+  }
+}
 
-export {fetchMoviesType, fetchMovieDetails, fetchMovieVideo};
+
+
+
+export {fetchMoviesType, fetchMovieDetails, fetchMovieVideo, fetchSeachedMovie};
