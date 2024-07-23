@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect} from "react";
 import { fetchMoviesType, fetchMovieDetails, fetchMovieVideo } from "./api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,7 +15,6 @@ const App = () => {
   const [error, setError] = useState('');
   const [showMovieDetails, setShowMovieDetails] = useState(false);
 
-  const modalRef = useRef(null) // Ref to hold modal DOM element
   
   useEffect(() => {
     fetchAllMovies('now_playing');
@@ -40,11 +39,15 @@ const App = () => {
   const fetchMovieData = async (movieId) =>{
     setLoading(true);
     try {
-      const data = await fetchMoviesType(movieId);
+      const data = await fetchMovieDetails(movieId);
       const movieVdo = await fetchMovieVideo(movieId);
       setMovieDetails(data);
+      let storeArrKey = movieVdo.results.map((vdo) => ((vdo.type === "Trailer") ? vdo.key : null))
+        .filter((vdo) => vdo !== null);
+      const VidURL = storeArrKey.map(id => `https://www.youtube.com/embed/${id}`);
+      setMovieVDO(VidURL);
       setShowMovieDetails(true);// Show the offcanvas when movie data is fetched
-      showModal(); // Show Bootstrap Modal
+      showModal(); // Show  Modal
     } catch (error) {
       handleFetchError(error);
     } finally {
@@ -57,7 +60,6 @@ const App = () => {
     // Reset movie details when offcanvas is closed
     setMovieDetails(null);
     setMovieVDO(null);
-    hideModal(); // Hide Bootstrap Modal
   };
 
   const handleFetchError = (error) => {
@@ -67,35 +69,12 @@ const App = () => {
     setLoading(false);
   };
 
-   //show Bootstrap Modal
+   //show  Modal
    const showModal = () => {
-    const modalEle = modalRef.current;
-    if (modalEle) {
-      const bsModal = new window.bootstrap.Modal(modalEle, {
-        backdrop: 'static',
-        keyboard: false
-      });
-      bsModal.show();
-    }
+    setShowMovieDetails(true); // show MovieDetails modal
   };
+   
   
-  //hide Bootstrap Modal
-  const hideModal = () => {
-    const modalEle = modalRef.current;
-    if (modalEle) {
-      const bsModal = window.bootstrap.Modal.getInstance(modalEle);
-      if (bsModal) {
-        bsModal.hide();
-         // Clean up modal backdrop
-         document.body.classList.remove('modal-open');
-         const modalBackdrop = document.querySelector('.modal-backdrop');
-         if (modalBackdrop) {
-           document.body.removeChild(modalBackdrop);
-         }
-      }
-    }
-  };
-
   return (
     <>
       <ToastContainer theme="colored" />
@@ -110,11 +89,10 @@ const App = () => {
       {
         showMovieDetails &&
         <MovieDetails
-          modalRef={modalRef}
           show={showMovieDetails}
           handleClose={handleCloseMovieDetails}
           movieDetails={movieDetails}
-          hideModal={hideModal}
+          movieVDO={movieVDO}
           showModal={showModal}
         />
       }

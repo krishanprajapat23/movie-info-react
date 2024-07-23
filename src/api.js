@@ -27,7 +27,7 @@ const fetchMovieDetails = async (movieId) => {
   try {
     const fetchMovieDetails = `${API_URL}/movie/${movieId}?api_key=${APIKey}&language=en-US`;
     const response = await axios.get(fetchMovieDetails);
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching chapters:", error);
@@ -39,7 +39,7 @@ const fetchMovieVideo = async (movieId) => {
   try {
     const fetchMovieVideo = `${API_URL}/movie/${movieId}/videos?api_key=${APIKey}&language=en-US`;
     const response = await axios.get(fetchMovieVideo);
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching chapters:", error);

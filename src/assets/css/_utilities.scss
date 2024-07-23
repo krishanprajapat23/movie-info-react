@@ -6,6 +6,7 @@ $secClr:#233d63;
 $dark: #222;
 $black: #000;
 $blackBg: #0f0f0f;
+$txtClr:#6b6b71;
 $fadeClr: #a2a5af;
 $paraClr:#677286;
 $successClr: #25d366;
@@ -115,7 +116,7 @@ h6 {
 }
 
 p {
-  color: $fadeClr;
+  color:$txtClr;
   word-wrap: break-word;
 }
 
@@ -150,11 +151,6 @@ p {
   pointer-events: all;
 }
 
-.desc {
-  color: $fadeClr;
-  font-size: 15px;
-  font-weight: 400;
-}
 
 .dropdown-toggle.no-arrow {
   &::after {
