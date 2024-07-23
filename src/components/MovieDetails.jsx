@@ -40,7 +40,7 @@ const MovieDetails = ({ show, handleClose, movieDetails, movieVDO }) => {
                             <div className="col-lg-6">
                                 <div className="modal-img-wrapper">
                                     <img
-                                        src={`https://image.tmdb.org/et/p/w500${poster_path}`}
+                                        src={`https://image.tmdb.org/t/p/w500${poster_path}`}
                                         alt={title}
                                         className="img-fluid mb-3"
                                     />

@@ -14,7 +14,7 @@ const Movie = ({ movieData, fetchMovieData }) => {
         <>
             <div className="card movie h-100" onClick={handleClick}>
                 <img
-                    src={`https://image.tmdb.org/mt/p/w500${poster_path}`}
+                    src={`https://image.tmdb.org/t/p/w500${poster_path}`}
                     alt={title}
                     className="card-img-top img-fluid"
                 />
